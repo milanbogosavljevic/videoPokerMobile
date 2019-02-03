@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="createjs.min.js"></script>
+    <script src="js/common/SoundManager.js"></script>
+    <script src="js/common/CustomMethods.js"></script>
+    <script src="js/common/Button.js"></script>
+    <script src="js/Server.js"></script>
+    <script src="js/Communicator.js"></script>
+    <script src="js/ControlboardComponent.js"></script>
+    <script src="js/GambleComponent.js"></script>
+    <script src="js/PaytableComponent.js"></script>
+    <script src="js/Card.js"></script>
+    <script src="js/PlayerCardsComponent.js"></script>
+    <script src="js/VideoPokerGame.js"></script>
+    <script src="js/PaytableWin.js"></script>
+    <script src="js/SoundInfoComponent.js"></script>
+    <script src="js/MessagesComponent.js"></script>
+    <script>
+
+        "use strict";
+        let stage;
+        let queue;
+        let game;
+        let percentLoaded;
+        let loading;
+
+        let preloaderImage;
+        let preloaderMask;
+
+        function init(){
+            stage = new createjs.Stage(document.getElementById("gameStage"));
+            queue = new createjs.LoadQueue(false);
+            createjs.Sound.alternateExtensions = ["mp3"];
+            queue.installPlugin(createjs.Sound);
+            loadPreloadImages();
+        }
+
+        function loadPreloadImages() {
+            console.log('load preload');
+            queue.on("complete", setPreloadImages);
+            queue.on("progress", ()=>{console.log('progress')});
+            queue.loadManifest([
+                {id: "preloaderImage", src:"assets/preloader.jpg"},
+                {id: "preloaderMask", src:"assets/preloaderMask.jpg"}
+            ]);
+        }
+
+        function setPreloadImages(e) {
+            e.remove();
+            console.log('set preload');
+            let background = new createjs.Shape();
+            background.graphics.beginFill("black").drawRect(0,0,1920,1080);
+
+            preloaderImage = system.CustomMethods.makeImage('preloaderImage', false);
+            preloaderImage.x = 240;
+            preloaderImage.y = 198;
+
+            preloaderMask = system.CustomMethods.makeImage('preloaderMask', false);
+            preloaderMask.rotation = 180;
+            preloaderMask.x = preloaderImage.x + 500;
+            preloaderMask.y = preloaderImage.y + 145;
+
+            percentLoaded = system.CustomMethods.makeText("" , "45px Russo One" , "white", 'right', 'middle');
+            percentLoaded.x = 550;
+            percentLoaded.y = 375;
+
+            stage.addChild(background, preloaderImage, preloaderMask, percentLoaded);
+            startAssetsLoading();
+        }
+
+        function startAssetsLoading() {
+            queue.removeAllEventListeners();
+            queue.on("complete", loadComplete);
+            queue.on("progress", handleProgress);
+            queue.loadManifest([
+                {id: "background", src:"assets/background.jpg"},
+                {id: "infoPanel", src:"assets/infoPanel.jpg"},
+                {id: "controlboardBackground", src:"assets/controlboardBackground.png"},
+                {id: "messagesBackground", src:"assets/messagesBackground.jpg"},
+                {id: "button", src:"assets/button.png"},
+                {id: "cardsAtlas", src:"assets/atlas.png"},
+                {id: "cardsJson", src:"assets/atlas.json"},
+                {id: "cardBack", src:"assets/cardBack.png"},
+                {id: "betMarker", src:"assets/betMarker.png"},
+                {id: "gambleBackground", src:"assets/gambleBackground.png"},
+                {id: "gambleOverlay", src:"assets/gambleOverlay.png"},
+                {id: "gambleButtonsOverlay", src:"assets/gambleButtonsOverlay.png"},
+                {id: "gambleCard", src:"assets/gambleCard.png"},
+                {id: "highButton", src:"assets/highButton.png"},
+                {id: "lowButton", src:"assets/lowButton.png"},
+                {id: "infoButton", src:"assets/infoButton.png"},
+                {id: "soundButton", src:"assets/soundButton.png"},
+                {id: "paytableBackground", src:"assets/paytableBackground.png"},
+                {id: "paytableMarker", src:"assets/paytableMarker.png"},
+                {id: "holdMarker", src:"assets/holdMarker.png"},
+                {id: "soundInfoBackground", src:"assets/soundInfoBackground.jpg"},
+                {id: "showSoundInfoComponentButton", src:"assets/showSoundInfoComponentButton.png"},
+                {id: "logo", src:"assets/logo.png"},
+
+                {id: "collectSound", src:"sounds/collecting.ogg"},
+                {id: "betSound", src:"sounds/bet.ogg"},
+                {id: "hasWinSound", src:"sounds/hasWin.ogg"},
+                {id: "gambleWinSound", src:"sounds/gambleWin.ogg"},
+                {id: "gambleLoseSound", src:"sounds/gambleLose.ogg"},
+                {id: "drawChangeCollectButtonSound", src:"sounds/drawChangeCollect.ogg"},
+                {id: "selectCardSound", src:"sounds/selectCard.ogg"},
+                {id: "gambleTensionSound", src:"sounds/gambleTension.ogg"},
+                {id: "collectDone", src:"sounds/collectDone.ogg"}
+            ]);
+        }
+
+        function handleProgress(event){
+            const percent = Math.round(event.progress* 100);
+            const scalePercent = (100 - percent)/100;
+            percentLoaded.text = percent + " %";
+            preloaderMask.scaleX = scalePercent;
+            stage.update();
+        }
+
+        function loadComplete() {
+            stage.removeAllChildren();
+            game = new system.VideoPokerGame();
+            stage.addChild(game);
+            percentLoaded = null;
+            loading = null;
+            setupStage();
+            queue.removeAllEventListeners();
+        }
+
+        function setupStage(){
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+            createjs.Ticker.addEventListener("tick", function(e){ // e needs because animation wont change framerate without it
+                game.render(e);
+            });
+        }
+
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                resize();
+                window.addEventListener('resize', resize);
+            }
+        };
+
+        function resize() {
+            const canvas = document.getElementById('gameStage');
+            const window_width = window.innerWidth;
+            const window_height = window.innerHeight;
+            const window_ratio = window_width / window_height;
+            const game_ratio = 960 / 540;
+            if (window_ratio < game_ratio){
+                canvas.style.width = window_width + 'px';
+                canvas.style.height = Math.floor(window_width / game_ratio) + 'px';
+            } else {
+                canvas.style.width = Math.floor(window_height * game_ratio) + 'px';
+                canvas.style.height = window_height + 'px';
+            }
+            console.log('w '+window_width);
+            console.log('h '+window_height);
+        }
+
+    </script>
+
+</head>
+<body onload="init();" oncontextmenu= "return false">
+
+<div class="container">
+    <canvas id="gameStage" width="960" height="540"></canvas>
+</div>
+</body>
+</html>
