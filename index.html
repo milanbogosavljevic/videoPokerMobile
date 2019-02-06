@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="createjs.min.js"></script>
     <script src="js/common/SoundManager.js"></script>
@@ -66,18 +65,33 @@
             preloaderMask.x = preloaderImage.x + 500;
             preloaderMask.y = preloaderImage.y + 145;
 
-            percentLoaded = system.CustomMethods.makeText("" , "45px Russo One" , "white", 'right', 'middle');
+            percentLoaded = system.CustomMethods.makeText("" , "45px Russo" , "white", 'right', 'middle');
             percentLoaded.x = 550;
             percentLoaded.y = 375;
 
             stage.addChild(background, preloaderImage, preloaderMask, percentLoaded);
-            startAssetsLoading();
+            //startAssetsLoading();
+            loadFontManifest();
 
             stage.addEventListener("click",function doResize(){
                 stage.removeEventListener("click",doResize);
                 document.documentElement.requestFullScreen();
                 screen.orientation.lock("landscape-primary");
             });
+        }
+
+        function loadFonts(config) {
+            const loader = new createjs.FontLoader(config, true);
+            loader.on("complete", startAssetsLoading);
+            loader.load();
+        }
+
+        function loadFontManifest() {
+            loadFonts({
+                src: ['fonts/Russo-Regular.otf'],
+                type: "font"
+            });
+            return false;
         }
 
         function startAssetsLoading() {

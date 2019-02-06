@@ -34,13 +34,13 @@ this.system = this.system || {};
             this._winFields.push(paytableWin);
             this.addChild(paytableWin);
         }
-        const bonusWinLabel = system.CustomMethods.makeText('BONUS WIN', '18px Russo One', '#dcf799', 'left', 'hanging');
+        const bonusWinLabel = system.CustomMethods.makeText('BONUS WIN', '18px Russo', '#dcf799', 'left', 'hanging');
         bonusWinLabel.x = 68;
         bonusWinLabel.y = 214;
         system.CustomMethods.cacheText(bonusWinLabel);
         this.addChild(bonusWinLabel);
 
-        const bonusWin = this._bonusWin = system.CustomMethods.makeText('0.00', '17px Russo One', '#dcf799', 'center', 'middle');
+        const bonusWin = this._bonusWin = system.CustomMethods.makeText('0.00', '17px Russo', '#dcf799', 'center', 'middle');
         bonusWin.x = 280;
         bonusWin.y = 222;
         system.CustomMethods.cacheText(bonusWin);

@@ -18,7 +18,7 @@ this.system = this.system || {};
         this.regX = background.image.width/2;
         this.regY = background.image.height/2;
 
-        this._message = system.CustomMethods.makeText('message', '22px Russo One', '#ec5750', 'center', 'middle');
+        this._message = system.CustomMethods.makeText('message', '22px Russo', '#ec5750', 'center', 'middle');
         this._message.x = this.regX;
         this._message.y = this.regY;
         this.addChild(this._message);

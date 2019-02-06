@@ -35,7 +35,7 @@ this.system = this.system || {};
     };
 
     p._setTextFields = function() {
-        const betTextLabel = system.CustomMethods.makeText('BET', '15px Russo One', '#f8fffd', 'center', 'middle');
+        const betTextLabel = system.CustomMethods.makeText('BET', '15px Russo', '#f8fffd', 'center', 'middle');
         betTextLabel.x = 180;
         betTextLabel.y = 15;
         system.CustomMethods.cacheText(betTextLabel);
@@ -49,29 +49,29 @@ this.system = this.system || {};
         let startX = 122;
         let spacing = 29;
         for(let i = 0; i < this._betLevels.length; i++){
-            let betValue = system.CustomMethods.makeText(this._betLevels[i], '12px Russo One', '#5b8bff', 'center', 'middle');
+            let betValue = system.CustomMethods.makeText(this._betLevels[i], '12px Russo', '#5b8bff', 'center', 'middle');
             betValue.x = startX + (spacing * i);
             betValue.y = 51;
             system.CustomMethods.cacheText(betValue);
             this.addChild(betValue);
         }
 
-        const winTextlabel = system.CustomMethods.makeText('WIN', '15px Russo One', '#f8fffd', 'center', 'middle');
+        const winTextlabel = system.CustomMethods.makeText('WIN', '15px Russo', '#f8fffd', 'center', 'middle');
         winTextlabel.x = 480;
         winTextlabel.y = 15;
         system.CustomMethods.cacheText(winTextlabel);
 
-        let winValue = this._winText = system.CustomMethods.makeText('0.00', '18px Russo One', '#ec5750', 'center', 'middle');
+        let winValue = this._winText = system.CustomMethods.makeText('0.00', '18px Russo', '#ec5750', 'center', 'middle');
         winValue.x = winTextlabel.x;
         winValue.y = 51;
         system.CustomMethods.cacheText(this._winText);
 
-        const balanceTextLabel = system.CustomMethods.makeText('BALANCE', '15px Russo One', '#f8fffd', 'center', 'middle');
+        const balanceTextLabel = system.CustomMethods.makeText('BALANCE', '15px Russo', '#f8fffd', 'center', 'middle');
         balanceTextLabel.x = 780;
         balanceTextLabel.y = 15;
         system.CustomMethods.cacheText(balanceTextLabel);
 
-        let balanceValue = this._balanceText = system.CustomMethods.makeText('0', '18px Russo One', '#ec5750', 'center', 'middle');
+        let balanceValue = this._balanceText = system.CustomMethods.makeText('0', '18px Russo', '#ec5750', 'center', 'middle');
         balanceValue.x = balanceTextLabel.x;
         balanceValue.y = 51;
         system.CustomMethods.cacheText(this._balanceText);
@@ -84,7 +84,7 @@ this.system = this.system || {};
         const bet = this._betButton = new system.Button(img2);
         bet.x = 64;
         bet.y = -25;
-        const betText = system.CustomMethods.makeText('BET', '15px Russo One', '#3f3f3f', 'center', 'middle');
+        const betText = system.CustomMethods.makeText('BET', '15px Russo', '#3f3f3f', 'center', 'middle');
         system.CustomMethods.cacheText(betText);
         bet.addText(betText);
         bet.centerText();
@@ -100,7 +100,7 @@ this.system = this.system || {};
         drawChangeCollect.on('click', (e)=>{
             this.onDrawChangeCollect();
         });
-        const drawText = system.CustomMethods.makeText('DRAW', '15px Russo One', '#3f3f3f', 'center', 'middle');
+        const drawText = system.CustomMethods.makeText('DRAW', '15px Russo', '#3f3f3f', 'center', 'middle');
         drawChangeCollect.addText(drawText);
         drawChangeCollect.centerText();
         this.addChild(drawChangeCollect);
