@@ -80,11 +80,16 @@
             //startAssetsLoading();
             loadFontManifest();
 
-            stage.addEventListener("click",function doResize(){
+            stage.addEventListener("click",doResize);
+
+            function doResize(){
                 stage.removeEventListener("click",doResize);
-                document.documentElement.requestFullScreen();
-                screen.orientation.lock("landscape-primary");
-            });
+                let el = document.documentElement,
+                    rfs = el.requestFullScreen
+                        || el.webkitRequestFullScreen
+                        || el.mozRequestFullScreen;
+                rfs.call(el);
+            }
         }
 
         function loadFonts(config) {
