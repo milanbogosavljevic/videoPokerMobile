@@ -20,6 +20,7 @@
     <script src="js/PaytableWin.js"></script>
     <script src="js/SoundInfoComponent.js"></script>
     <script src="js/MessagesComponent.js"></script>
+    <icon src="icon.png" />
     <script>
 
         "use strict";
@@ -71,6 +72,12 @@
 
             stage.addChild(background, preloaderImage, preloaderMask, percentLoaded);
             startAssetsLoading();
+
+            stage.addEventListener("click",function doResize(){
+                stage.removeEventListener("click",doResize);
+                document.documentElement.requestFullScreen();
+                screen.orientation.lock("landscape-primary");
+            });
         }
 
         function startAssetsLoading() {
@@ -137,30 +144,6 @@
             createjs.Ticker.addEventListener("tick", function(e){ // e needs because animation wont change framerate without it
                 game.render(e);
             });
-        }
-
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                resize();
-                window.addEventListener('resize', resize);
-            }
-        };
-
-        function resize() {
-            const canvas = document.getElementById('gameStage');
-            const window_width = window.innerWidth;
-            const window_height = window.innerHeight;
-            const window_ratio = window_width / window_height;
-            const game_ratio = 960 / 540;
-            if (window_ratio < game_ratio){
-                canvas.style.width = window_width + 'px';
-                canvas.style.height = Math.floor(window_width / game_ratio) + 'px';
-            } else {
-                canvas.style.width = Math.floor(window_height * game_ratio) + 'px';
-                canvas.style.height = window_height + 'px';
-            }
-            console.log('w '+window_width);
-            console.log('h '+window_height);
         }
 
     </script>
