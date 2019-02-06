@@ -74,18 +74,10 @@
             loadFontManifest();
 
             stage.addEventListener("click",doResize);
-
-            window.onresize = function(e) {
-                if(stage.hasEventListener('click') === false){
-                    console.log('add');
-                    stage.addEventListener("click",doResize);
-                }
-            }
         }
 
         function doResize(){
             stage.removeEventListener("click",doResize);
-            alert('do resize');
             let el = document.documentElement,
                 rfs = el.requestFullScreen
                     || el.webkitRequestFullScreen

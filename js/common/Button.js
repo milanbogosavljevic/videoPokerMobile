@@ -46,6 +46,10 @@ this.system = this.system || {};
         }
     };
 
+    p.doScaleAnimation = function() {
+        createjs.Tween.get(this).to({scale:0.8},50).to({scale:1},50);
+    };
+
     p.enableClick = function(enabled) {
         this.mouseEnabled = enabled;
     };

@@ -86,6 +86,7 @@ this.system = this.system || {};
         high.x = 188;
         high.y = 45;
         high.on('click', ()=>{
+            high.doScaleAnimation();
             this.onButton('High');
         });
         this.addChild(high);
@@ -95,6 +96,7 @@ this.system = this.system || {};
         low.x = high.x;
         low.y = 140;
         low.on('click', ()=>{
+            low.doScaleAnimation();
             this.onButton('Low');
         });
         this.addChild(low);

@@ -89,6 +89,7 @@ this.system = this.system || {};
         bet.addText(betText);
         bet.centerText();
         bet.on('click', (e)=>{
+            bet.doScaleAnimation();
             this.onBet();
         });
         this.addChild(bet);
@@ -98,6 +99,7 @@ this.system = this.system || {};
         drawChangeCollect.x = 896;
         drawChangeCollect.y = -25;
         drawChangeCollect.on('click', (e)=>{
+            drawChangeCollect.doScaleAnimation();
             this.onDrawChangeCollect();
         });
         const drawText = system.CustomMethods.makeText('DRAW', '15px Russo', '#3f3f3f', 'center', 'middle');
