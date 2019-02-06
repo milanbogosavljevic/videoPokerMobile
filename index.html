@@ -27,6 +27,7 @@
         let game;
         let percentLoaded;
         let loading;
+        let rotateImg;
 
         let preloaderImage;
         let preloaderMask;
@@ -75,7 +76,6 @@
             stage.addEventListener("click",doResize);
 
             window.onresize = function(e) {
-                console.log('on resize');
                 if(stage.hasEventListener('click') === false){
                     console.log('add');
                     stage.addEventListener("click",doResize);
@@ -85,7 +85,7 @@
 
         function doResize(){
             stage.removeEventListener("click",doResize);
-            console.log('do resize');
+            alert('do resize');
             let el = document.documentElement,
                 rfs = el.requestFullScreen
                     || el.webkitRequestFullScreen
