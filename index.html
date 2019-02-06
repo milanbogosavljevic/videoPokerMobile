@@ -24,7 +24,9 @@
         /* you can pass in options here */
         PleaseRotateOptions = {
             onShow: function(){
+                alert('show');
                 if(stage.hasEventListener('click') === false){
+                    alert('if');
                     stage.addEventListener("click",doResize);
                 }
             }
