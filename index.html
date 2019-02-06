@@ -20,11 +20,14 @@
     <script src="js/PaytableWin.js"></script>
     <script src="js/SoundInfoComponent.js"></script>
     <script src="js/MessagesComponent.js"></script>
-    <icon src="icon.png" />
     <script>
         /* you can pass in options here */
         PleaseRotateOptions = {
-            forcePortrait: false // if you would prefer to force portrait mode
+            onShow: function(){
+                if(stage.hasEventListener('click') === false){
+                    stage.addEventListener("click",doResize);
+                }
+            }
         };
     </script>
     <script>
@@ -81,15 +84,15 @@
             loadFontManifest();
 
             stage.addEventListener("click",doResize);
+        }
 
-            function doResize(){
-                stage.removeEventListener("click",doResize);
-                let el = document.documentElement,
-                    rfs = el.requestFullScreen
-                        || el.webkitRequestFullScreen
-                        || el.mozRequestFullScreen;
-                rfs.call(el);
-            }
+        function doResize(){
+            stage.removeEventListener("click",doResize);
+            let el = document.documentElement,
+                rfs = el.requestFullScreen
+                    || el.webkitRequestFullScreen
+                    || el.mozRequestFullScreen;
+            rfs.call(el);
         }
 
         function loadFonts(config) {
