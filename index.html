@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="pleaserotate.min.js"></script>
     <script src="createjs.min.js"></script>
     <script src="js/common/SoundManager.js"></script>
     <script src="js/common/CustomMethods.js"></script>
@@ -21,16 +20,6 @@
     <script src="js/SoundInfoComponent.js"></script>
     <script src="js/MessagesComponent.js"></script>
     <script>
-
-        PleaseRotateOptions = {
-            onShow: function(){
-                alert('show');
-                if(stage.hasEventListener('click') === false){
-                    alert('if');
-                    stage.addEventListener("click",doResize);
-                }
-            }
-        };
 
         "use strict";
         let stage;
@@ -83,11 +72,11 @@
             //startAssetsLoading();
             loadFontManifest();
 
-            stage.addEventListener("click",doResize);
+            //stage.addEventListener("click",doResize);
         }
 
         function doResize(){
-            stage.removeEventListener("click",doResize);
+            //stage.removeEventListener("click",doResize);
             let el = document.documentElement,
                 rfs = el.requestFullScreen
                     || el.webkitRequestFullScreen
@@ -166,6 +155,7 @@
             loading = null;
             setupStage();
             queue.removeAllEventListeners();
+            doResize();
         }
 
         function setupStage(){
@@ -175,8 +165,15 @@
             });
         }
 
-    </script>
+        window.PleaseRotateOptions = {
+            onlyMobile: false,
+            onShow: function(){
+                doResize();
+            }
+        };
 
+    </script>
+    <script src="pleaserotate.min.js"></script>
 </head>
 <body onload="init();" oncontextmenu= "return false">
 
