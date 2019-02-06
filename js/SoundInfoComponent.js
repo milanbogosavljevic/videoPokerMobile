@@ -41,7 +41,7 @@ this.system = this.system || {};
         const buttonImage = system.CustomMethods.makeImage('showSoundInfoComponentButton', true);
         const button = new system.Button(buttonImage);
         button.x = background.image.width/2;
-        button.y = 54;
+        button.y = 64;
         button.on('click', (e)=>{
             this._game.showHideSoundInfoComponent();
         });
