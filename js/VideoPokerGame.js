@@ -25,7 +25,7 @@ this.system = this.system || {};
     p._init = function () {
         this._registerSounds();
 
-        const back = system.CustomMethods.makeImage('background', false);
+        const back = system.CustomMethods.makeImage('background', true);
         this.addChild(back);
 
         const logo = this._logo = system.CustomMethods.makeImage('logo', false);

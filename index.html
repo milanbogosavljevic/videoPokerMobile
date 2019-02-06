@@ -72,11 +72,20 @@
             //startAssetsLoading();
             loadFontManifest();
 
-            //stage.addEventListener("click",doResize);
+            stage.addEventListener("click",doResize);
+
+            window.onresize = function(e) {
+                console.log('on resize');
+                if(stage.hasEventListener('click') === false){
+                    console.log('add');
+                    stage.addEventListener("click",doResize);
+                }
+            }
         }
 
         function doResize(){
-            //stage.removeEventListener("click",doResize);
+            stage.removeEventListener("click",doResize);
+            console.log('do resize');
             let el = document.documentElement,
                 rfs = el.requestFullScreen
                     || el.webkitRequestFullScreen
@@ -155,7 +164,6 @@
             loading = null;
             setupStage();
             queue.removeAllEventListeners();
-            doResize();
         }
 
         function setupStage(){
@@ -165,15 +173,7 @@
             });
         }
 
-        window.PleaseRotateOptions = {
-            onlyMobile: false,
-            onShow: function(){
-                doResize();
-            }
-        };
-
     </script>
-    <script src="pleaserotate.min.js"></script>
 </head>
 <body onload="init();" oncontextmenu= "return false">
 
